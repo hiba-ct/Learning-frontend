@@ -1,0 +1,42 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  
+  font-family: "Kanit", sans-serif;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* Adjust scale as needed */
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* Adjust scale as needed */
+  }
+}
+
+.circle-bg-danger {
+  display: inline-block;
+  border-radius: 50%; /* Makes the background a circle */
+  background-color: lightcoral; /* Adjust background color */
+  color: white; /* Adjust text color */
+  width: 50px; /* Set width for circle */
+  height: 50px; /* Set height for circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease; /* Smooth transition on hover */
+}
+
+.circle-bg-danger:hover {
+  animation: pulse 1.5s infinite ease-in-out;
+  cursor: pointer; /* Change cursor to indicate hover */
+}
