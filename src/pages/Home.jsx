@@ -1,18 +1,76 @@
 import { faArrowRight, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import img1 from '../assets/img1.png';
+import CoursesCards from '../components/CoursesCards';
+import Services from '../components/Services';
+import { getHomeCourseAPI, getHomeServicesAPI, getHomeTeachersAPI } from '../services/allApi';
+import ServiceCard from '../components/ServiceCard';
+import TeachersCard from '../components/TeachersCard';
+import { height } from '@fortawesome/free-brands-svg-icons/fa42Group';
 
 const Home = () => {
-  const servicesData = [
-    { title: "Free Online Courses", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 1 },
-    { title: "Unlimited Courses", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 2 },
-    { title: "Digital Library", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 3 },
-  ];
+  const [allHomeTeachers,setAllHomeTeachers]=useState([])
+  const [allHomeCourses,setAllHomeCourses]=useState([])
+  const [allHomeServices,setAllHomeServices]=useState([])
 
+  useEffect(()=>{
+    getAllHomeCourses()
+        },[])
+        const getAllHomeCourses =async()=>{
+    try{
+        const result = await getHomeCourseAPI()
+        if(result.status==200)
+    
+            setAllHomeCourses(result.data)
+        
+    }catch(err){
+        console.log(err);
+    }
+        }
+    
+        console.log(allHomeCourses);
+
+
+        useEffect(()=>{
+    getAllHomeServices()
+        },[])
+        const getAllHomeServices =async()=>{
+    try{
+        const result = await getHomeServicesAPI()
+        if(result.status==200)
+    
+            setAllHomeServices(result.data)
+        
+    }catch(err){
+        console.log(err);
+    }
+        }
+    
+        console.log(allHomeServices);
+
+
+
+        useEffect(()=>{
+          getAllHomeTeachers()
+              },[])
+              const getAllHomeTeachers =async()=>{
+          try{
+              const result = await getHomeTeachersAPI()
+              if(result.status==200)
+          
+                  setAllHomeTeachers(result.data)
+              
+          }catch(err){
+              console.log(err);
+          }
+              }
+          
+              console.log(allHomeTeachers);
+       
   return (
     <div className='container-fluid p-4 mb-4 ' style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
@@ -22,7 +80,7 @@ const Home = () => {
           <div className='text-center'>
             <h1 className='text-light'>Welcome to <span className='text-success'>Eduversity</span></h1>
             <div className='mt-4'>
-              <Link to='/courses'>
+              <Link to='/Register'>
                 <button className='btn btn-outline-light bg-danger me-2'>
                   Our Courses
                   <FontAwesomeIcon icon={faArrowRight} className='ms-2' />
@@ -102,62 +160,99 @@ const Home = () => {
          
         </Row>
       </div>
+
+ 
+
       {/* Services Section */}
-      <Row className="rounded shadow g-5 " style={{ width: "100%" }}>
-        {servicesData.map((service, index) => (
-          <Col md={4} key={index} className="d-flex justify-content-center">
-            <Card className="mt-5 border" style={{ width: '18rem', height: "300px" }}>
-              <Card.Body>
-                <Card.Title className="d-flex justify-content-center align-items-center mt-5 p-3 text-danger">
-                  {service.title}
-                </Card.Title>
-                <Card.Text className="d-flex justify-content-center align-items-center">
-                  {service.text}
-                </Card.Text>
-                <Card.Text className="fs-1 circle-bg-danger">
-                  {service.number}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-        <Col xs={12} className="d-flex justify-content-center mt-3">
-          <Link to="/services" className="text-decoration-none">
-            <button className="bg-success text-center rounded text-white mb-5" style={{ width: "300px", height: "40px" }}>
-              Explore All Services
-            </button>
-          </Link>
-        </Col>
-      </Row>
+      <div
+  className="rounded shadow d-flex flex-column align-items-center justify-content-center "
+ /* style={{
+    backgroundImage: `url('https://i0.wp.com/www.nassgap.org/wp-content/uploads/education-background.jpg?ssl=1')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    minHeight: "100vh", // Ensures full viewport height
+    padding: "20px", // Adds some spacing around the content
+  }}  */
+>
+  <h1 className="mx-5  text-center pt-5">
+    Services
+  </h1>
 
-      {/* Teachers Section */}
-      <marquee>
-        <Row className='mt-5 g-3'>
-          {[
-            { name: 'Filmr Doe', role: 'Teacher', image: 't1.jpg' },
-            { name: 'Jaye Smith', role: 'Teacher', image: 't2.jpg' },
-            { name: 'Mike Arney', role: 'Teacher', image: 't3.jpg' },
-            { name: 'Mary Jane', role: 'Teacher', image: 't4.jpg' },
-          ].map((teacher, index) => (
-            <Col md={3} key={index} className="d-flex justify-content-center">
-              <Card style={{ width: '18rem' }}>
-                <Card.Img 
-                  variant="top" 
-                  src={`https://p.w3layouts.com/demos_new/template_demo/08-09-2018/eduversity_demo_Free/695053153/web/images/${teacher.image}`} 
-                  alt={`${teacher.name}`} 
-                />
-                <Card.Body>
-                  <Card.Title className='d-flex justify-content-center text-info'>
-                    {teacher.name} <span className='text-light'> : {teacher.role}</span>
-                  </Card.Title>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+  <div className="d-flex flex-wrap justify-content-center mt-5">
+    {allHomeServices?.map((service,index) => (
+      <Col key={service?._id}
+      className='mb-3'
+      sm={12} md={6} lg={4}>
+         <ServiceCard displayDataService={service}index={index} />
+       </Col>
+    ))}
+  </div>
+
+  <Col xs={12} className="d-flex justify-content-center mt-3">
+    <Link to="/services" className="text-decoration-none">
+      <button
+        className="bg-success text-center rounded text-white mb-5"
+        style={{ width: "300px", height: "40px" }}
+      >
+        Explore All Services
+      </button>
+    </Link>
+  </Col>
+</div>
+
+
+     
+          
+     
+{/* courses section */}
+<div className=' mt-5 text-center '>
+<h1 className='mb-5'>Popular Courses</h1>
+
+<marquee>
+  <div key={(CoursesCards?._id)} className='d-flex'>
+    {
+      allHomeCourses?.map(courses=>(
+        <div className='me-5'>
+      
+  <CoursesCards displayData={courses}showDescription={true}style={{height:"100px"}}/>
+  </div>
+))
+    }
+  </div>
+
+</marquee>
+</div>
+
+<div className="rounded shadow d-flex justify-content-center align-items-center pt-5 " >
+  <Link to="/register" className="text-decoration-none">
+    <button className="btn btn-link mt-5 text-danger text-center"class="btn-hover color-7">
+      CLICK HERE TO VIEW MORE COURSES...
+    </button>
+  </Link>
+</div>
+
+
+{/* Teachers Section */}
+<h1 className="mx-5  text-center mt-5">
+    Teachers
+  </h1>
+
+  <div className=" d-flex flex-wrap justify-content-center mt-5 pb-5">
+      <Row className='mt-2 g-3'>
+      {allHomeTeachers?.map(teacher => (
+      <Col key={teacher?._id}
+      className='mb-3'
+      sm={12} md={6} lg={4}>
+         <TeachersCard displayDataTeachers={teacher}/>
+       </Col>
+    ))}
         </Row>
-      </marquee>
-
+        </div>
+        
     </div>
+
+    
   );
 };
 

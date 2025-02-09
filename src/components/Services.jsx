@@ -1,38 +1,59 @@
-import React from 'react';
-import { Card, Col, Row } from 'react-bootstrap';
+import React, {  useEffect, useState } from 'react';
 
-const servicesData = [
-  { title: "Free Online Courses", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 1 },
-  { title: "Unlimited Courses", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 2 },
-  { title: "Digital Library", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 3 },
-  { title: "Best Industry Leaders", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 4 },
-  { title: "Graduate Courses", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 5 },
-  { title: "Certificate Courses", text: "Aenean tristique, duiid blandit elt ultricies, ligula elit interd ures turpis, a bibendum lib.", number: 6 },
-];
+import { Col, Row } from 'react-bootstrap';
+
+import ServiceCard from './ServiceCard';
+import { allServicesAPI } from '../services/allApi';
 
 const Services = () => {
-  return (
+  
+  const [allServices, setAllServices] = useState([]);
+  console.log(allServices);
 
-    <Row className="rounded g-5" style={{ width: "100%", height: "auto" }}> 
-<h1 className='mx-5 pt-5'><span className='text-white'> Services</span> - We offer</h1>
-      {servicesData.map((service, index) => (
-        <Col md={4} className="d-flex justify-content-center" key={index}>
-          <Card className="mt-5 border" style={{ width: '18rem', height: "300px" }}>
-            <Card.Body>
-              <Card.Title className="d-flex justify-content-center align-items-center mt-5 p-3 text-danger">
-                {service.title}
-              </Card.Title>
-              <Card.Text className="d-flex justify-content-center align-items-center">
-                {service.text}
-              </Card.Text>
-              <Card.Text className="fs-1 circle-bg-danger">
-                {service.number}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
-    </Row>
+  useEffect(() => {
+    getAllServices();
+  }, []);
+
+  const getAllServices = async () => {
+    
+    
+      try {
+        const result = await allServicesAPI();
+        if (result.status === 200) {
+          setAllServices(result.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    
+  };
+
+  return (
+    <>
+      <div style={{ paddingTop: '100px' }} className="container-fluid">
+        <div className="d-flex justify-content-between">
+          <h1>All Services</h1>
+        
+        </div>
+
+        <Row className="mt-3">
+          {allServices?.length>0?
+          allServices?.map((service,index) => (
+            <Col key={service?._id}
+           className='mb-3'
+           sm={12} md={6} lg={4}>
+           
+              <ServiceCard displayDataService={service} index={index}/>
+            </Col>
+          ))
+        :
+        <div className='text-danger fw-bolder'>
+        service Not found!!!</div>
+        }
+        </Row>
+         
+      </div>
+    </>
   );
 };
 

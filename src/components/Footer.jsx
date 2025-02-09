@@ -1,93 +1,86 @@
-import { faFacebook, faInstagram, faLinkedinIn, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
-import { faUniversity } from '@fortawesome/free-solid-svg-icons'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import React from 'react'
-
-import { Link } from 'react-router-dom'
+import { faFacebook, faInstagram, faLinkedinIn, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faUniversity } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <>
-    <div className='row  p-5 flex bg-success text-white p-5 mt-5 rounded shadow  '>
-    <div className="col-md-4" >
-    <h5 className='text-danger'>  <FontAwesomeIcon className='me-2' style={{ color:"black" }} icon={faUniversity}></FontAwesomeIcon>
-  Eduversity
-  
-   </h5>
-
-
-   <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-    Autem pariatur consequuntur repellat obcaecati odio dolore ea natus earum eum, 
-    sapiente nesciunt a totam fugiat doloremque ipsum quo neque modi. Adipisci!
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-    Autem pariatur consequuntur repellat obcaecati odio dolore ea natus earum eum. 
-    
-
-
-
-
-
-
-</p>
-                 </div> 
-            <div className="col-md-2  d-md-flex justify-content-center" >
-             <div>
-              <h4 className='mb-4'>Links</h4>
-              <div>
-             <Link style={{ textDecoration:'none',color:'white' }}to={'/'}> <p>Home</p></Link>
-        
-              <Link style={{ textDecoration:'none',color:'white' }}to={'/courses'}><p>Courses</p></Link>
-              <Link style={{ textDecoration:'none',color:'white' }}to={'/admin'}><p>Admin</p></Link>
-          </div>
+      <div className="footer container-fluid bg-success text-white pt-5 pb-4 mt-5">
+        <div className="container">
+          <div className="row">
+            {/* Left Section */}
+            <div className="col-lg-4 col-md-6 mb-4">
+              <h5 className="text-danger">
+                <FontAwesomeIcon className="me-2" style={{ color: "black" }} icon={faUniversity} />
+                Eduversity
+              </h5>
+              <p className="small-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Autem pariatur consequuntur repellat obcaecati odio dolore ea natus earum eum,
+                sapiente nesciunt a totam fugiat doloremque ipsum quo neque modi.
+              </p>
             </div>
+
+            {/* Middle Section - Links */}
+            <div className="col-lg-2 col-md-6 mb-4">
+              <h5>Links</h5>
+              <ul className="list-unstyled">
+                <li><Link className="footer-link" to="/">Home</Link></li>
+                <li><Link className="footer-link" to="/login">Courses</Link></li>
+                <li><Link className="footer-link" to="/login">Contact</Link></li>
+              </ul>
+            </div>
+
+            {/* Guides Section */}
+            <div className="col-lg-2 col-md-6 mb-4">
+              <h5>Guides</h5>
+              <ul className="list-unstyled">
+                <li>React</li>
+                <li>React Bootstrap</li>
+                <li>Routing</li>
+              </ul>
+            </div>
+
+            {/* Contact Section */}
+            <div className="col-lg-4 col-md-6">
+              <h5>Contact Us</h5>
+              <div className="input-group my-3">
+                <input type="text" className="form-control" placeholder="Enter your Email" />
+                <button className="btn btn-danger">→</button>
               </div>
-            <div className='col-md-1'></div>
-            <div className="col-md-2" >
-            <div>
-              <h4 className='mb-4'>Guides</h4>
-              <div>
-              <p>React</p>
-              <p>React Bootstrap</p>
-              <p>Routing</p>
-            </div>
-            </div>
-            </div>
-            <div className="col-md-3 d-md-flex justify-content-center" >
-                <div>
-              <h4>Contact us</h4>
-              <div className='d-flex mt-4'>
-                <input type='text'className='form-control'placeholder=' enter your Email Id'/>
-                <button className='btn btn-danger ms-4'>→</button>
-              </div>
-              <div className='icons fs-5 d-flex justify-content-between mt-3'>
 
-<Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
-<i className='fa-solid fa-envelope'></i></Link>
-
-<Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
+              {/* Social Icons */}
+              <div className="d-flex gap-3 fs-5">
+              <Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
+              <i className='fa-solid fa-envelope'></i></Link>
+              <Link to={'https://www.youtube.com/watch?v=k5E2AVpwsko'}style={{ textDecoration:'none',color:'white' }}>
 <i className="fa-brands fa-youtube" /></Link>
 
 <Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
 <i className="fa-brands fa-whatsapp" /></Link>
 
 <Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
-<i className="fa-brands fa-twitter" /></Link>
+<i className="fa-brands fa-instagram" /></Link>
 
 <Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
-<i className="fa-brands fa-instagram" /></Link>
+<i className="fa-brands fa-twitter" /></Link>
 
 <Link to={'https://getbootstrap.com/'}style={{ textDecoration:'none',color:'white' }}>
 <i className="fa-brands fa-facebook" /></Link>
               </div>
             </div>
+          </div>
+        </div>
 
-   </div>
-   <p className='p-3 d-flex justify-content-center '>Copyright © 2024 Eduversity.Built with React</p>
-   </div>
-   </>
-  )
-}
+        {/* Copyright Section */}
+        <div className="text-center mt-4 pt-3 border-top">
+          <p className="m-0">Copyright © 2024 Eduversity. Built with React.</p>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default Footer
+export default Footer;

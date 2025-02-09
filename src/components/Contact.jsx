@@ -1,12 +1,51 @@
 import { faAddressBook, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Form from 'react-bootstrap/Form';
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
+import {  submitAPI } from '../services/allApi';
 
 const Contact = () => {
+  const [inputData, setInputData] = useState({
+    fullname: '',
+    email: '',
+    contact: '',
+    message:'',
+    course:''
+  });
+
+
+
+
+
+
+
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (inputData.fullname && inputData.email && inputData.contact && inputData.message) {
+        try {
+          const result = await submitAPI(inputData);
+          if (result.status === 200) {
+            alert(`Welcome ${result.data?.fullname},Your Response Noted`);
+            
+          } else if (result.response?.status === 406) {
+            alert(result.response.data || "Submision failed. Please try again.");
+            setInputData({  fullname: '',
+              email: '',
+              contact: '',
+              message:'' });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        alert('Please fill the form completely!');
+      }
+    };
+  
   return (
     <>
+    
       
       <div className="row text-center p-5">
         <h1> <span style={{ color:"white" }}>Contact Us</span> -Get in Touch</h1>
@@ -29,7 +68,7 @@ const Contact = () => {
           <h2>PHONE</h2>
           <p>
             +1 234 567 8901<br />
-            +1 234 567 8901
+            +1 234 567 8902
           </p>
         </div>
       </div>
@@ -39,24 +78,68 @@ const Contact = () => {
           <Form className="w-75">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" placeholder="Name" />
+              <Form.Control   value={inputData.fullname}
+                    onChange={(e) =>
+                      setInputData({ ...inputData, fullname: e.target.value })
+                    }
+                    type="text" placeholder="Name" />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Email" />
+              <Form.Control   value={inputData.email}
+                    onChange={(e) =>
+                      setInputData({ ...inputData, email: e.target.value })
+                    }
+                    type="email" placeholder="Email" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Phone Number</Form.Label>
-              <Form.Control type="text" placeholder="Phone Number" />
+              <Form.Control   value={inputData.contact}
+                    onChange={(e) =>
+                      setInputData({ ...inputData, contact: e.target.value })
+                    }
+                    type="text" placeholder="Phone Number" />
             </Form.Group>
+
+            <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+  <Form.Label>Course</Form.Label>
+  <Form.Select 
+    value={inputData.course}
+    onChange={(e) =>
+      setInputData({ ...inputData, course: e.target.value })
+    }
+   
+  >
+    <option  value="" >Select a Course</option>
+    <option value="Web Development">Web Development</option>
+    <option value="Data Science">Data Science</option>
+    <option value="Cyber Security">Cyber Security</option>
+    <option value="Cloud Computing">Cloud Computing</option>
+    <option value="Dentisty">Dentisty</option>
+    <option value="Psychology">Psychology</option>
+    <option value="Mobile App">Mobile App</option>
+    <option value="Software Development">Software development</option>
+    <option value="Networking">Networking</option>
+    <option value="Businee Management">Business Mangement</option>
+    <option value="Hospital Administration">Hospital Administration</option>
+    <option value="Others">Others</option>
+  </Form.Select>
+</Form.Group>
+
+
+
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Your Message</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control   value={inputData.message}
+                    onChange={(e) =>
+                      setInputData({ ...inputData, message: e.target.value })
+                    }
+                    as="textarea" rows={3} />
             </Form.Group>
 
             <div className="d-flex justify-content-center mt-3">
-              <button className='bg-danger rounded-2 w-50'style={{ height:"40px" }}>Submit</button>
+              <button onClick={handleSubmit}className='bg-danger rounded-2 w-50'style={{ height:"40px" }}>Submit</button>
             </div>
           </Form>
         </Col>

@@ -82,9 +82,7 @@ const About = () => {
           <Col md={4} className="text-center">
             <div className="d-flex justify-content-center align-items-center">
               <Link to="/about" className="text-decoration-none">
-                <button className="bg-success text-center rounded text-white d-flex justify-content-center align-items-center" style={{ width: "200%", height: "40px" }}>
-                  Read More
-                </button>
+                
               </Link>
             </div>
           </Col>
