@@ -188,6 +188,32 @@ export const deleteTeachersAPI=async(id,reqHeader)=>{
 export const updateSettingsAPI = async (id, reqBody, reqHeader) => {
     return await commonApi("PUT", `${SERVER_URL}/admin/${id}/edit`, reqBody, reqHeader);
   };
+
+
+  //chatbox usermessage
+  
+  export const usermessageAPI = async (reqBody) => {
+    return await commonApi("POST", `${SERVER_URL}/sendmessage`, reqBody);
+  };
+
+
+  export const adminreplyAPI = async (messageId,reqBody, reqHeader) => {
+    return await commonApi("POST", `${SERVER_URL}/replymessage/${messageId}`, reqBody, reqHeader);
+  };
+  
+  export const allMessagesAPI = async (reqHeader) => {
+    return await commonApi("GET", `${SERVER_URL}/messages`, {},reqHeader);
+  };
+
+
+   //removemessage
+export const deleteMessageAPI=async(messageId,reqHeader)=>{
+    return await commonApi("DELETE",`${SERVER_URL}/deleteMessage/${messageId}`,{},reqHeader)
+}
+
+
+
+
   
 
 

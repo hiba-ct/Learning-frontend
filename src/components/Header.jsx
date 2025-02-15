@@ -21,7 +21,7 @@ const Header = () => {
     
     <Navbar collapseOnSelect expand="lg" className="  flex bg-success fixed w-full  ">
       <Container>
-        <Navbar.Brand className='text-danger fs-3' href="home">  <FontAwesomeIcon style={{ color:"black" }} icon={faUniversity} className="me-2" />Eduversity</Navbar.Brand>
+        <Navbar.Brand className='text-danger fs-3' href="/">  <FontAwesomeIcon style={{ color:"black" }} icon={faUniversity} className="me-2" />Eduversity</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto ">

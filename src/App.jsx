@@ -21,6 +21,7 @@ import ViewSettings from './pages/admin/ViewSettings'
 import ViewContacts from './pages/admin/ViewContact'
 import { useContext, useEffect } from 'react'
 import { tokenAuthContext } from './contexts/AuthContextApi'
+import ChatBox from './components/ChatBox'
 
 
 
@@ -45,6 +46,7 @@ function App() {
         isAutherised &&
         <>
         <Route path='/contact'element={<Contact/>}/>
+        <Route path='/chatbox'element={<ChatBox/>}/>
         <Route path='/addservices' element={<AddServices/>}/>
      <Route path='/viewservices' element={<ViewServices/>}/>
      <Route path='/viewcourse' element={<ViewCourse/>}/>

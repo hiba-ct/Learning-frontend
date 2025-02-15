@@ -101,6 +101,61 @@
   border-radius: 5px;
 }
 
+/* chatbox */
+
+.chatbox {
+  width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.messages-container {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  max-width: 70%;
+}
+
+.message.user {
+  background-color: #d1e7ff;
+  text-align: left;
+}
+
+.message.admin {
+  background-color: #e1ffc7;
+  text-align: right;
+}
+
+.message-text {
+  font-size: 16px;
+}
+
+.reply-text {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.message-input input {
+  width: 70%;
+  padding: 8px;
+  margin-right: 5px;
+}
+
+button {
+  padding: 8px;
+  cursor: pointer;
+}
+
+
 
 
 

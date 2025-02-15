@@ -4,8 +4,13 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import {  submitAPI } from '../services/allApi';
+import ChatBox from './ChatBox';
+import AdminChat from '../pages/admin/AdminChat';
+import { Link } from 'react-router-dom';
+import { faRocketchat } from '@fortawesome/free-brands-svg-icons';
 
 const Contact = () => {
+  
   const [inputData, setInputData] = useState({
     fullname: '',
     email: '',
@@ -14,14 +19,12 @@ const Contact = () => {
     course:''
   });
 
-
-
-
+ 
 
 
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+     /*  e.preventDefault(); */
       if (inputData.fullname && inputData.email && inputData.contact && inputData.message) {
         try {
           const result = await submitAPI(inputData);
@@ -47,31 +50,37 @@ const Contact = () => {
     <>
     
       
-      <div className="row text-center p-5">
-        <h1> <span style={{ color:"white" }}>Contact Us</span> -Get in Touch</h1>
-        <div className="col-4 d-flex flex-column align-items-center justify-content-center">
-          <FontAwesomeIcon className='fs-3 text-danger' icon={faAddressBook}  />
-          <h2>ADDRESS</h2>
-          <p>
-            2466H 5th Street Parking, King Block,<br /> New York City.
-          </p>
-        </div>
+    <div className="container text-center py-5">
+  <h1>
+    <span style={{ color: "white" }}>Contact Us</span> - Get in Touch
+  </h1>
+  
+  <div className="row g-4 mt-4">
+    <div className="col-md-4 col-12 d-flex flex-column align-items-center">
+      <FontAwesomeIcon className="fs-3 text-danger" icon={faAddressBook} />
+      <h2>ADDRESS</h2>
+      <p>
+        2466H 5th Street Parking, King Block,<br /> New York City.
+      </p>
+    </div>
 
-        <div className="col-4 d-flex flex-column align-items-center justify-content-center">
-          <FontAwesomeIcon className='fs-3 text-danger' icon={faEnvelope}  />
-          <h2>EMAIL</h2>
-          <p>mail@example.com<br />mail@example.com</p>
-        </div>
+    <div className="col-md-4 col-12 d-flex flex-column align-items-center">
+      <FontAwesomeIcon className="fs-3 text-danger" icon={faEnvelope} />
+      <h2>EMAIL</h2>
+      <p>mail@example.com<br />mail@example.com</p>
+    </div>
 
-        <div className="col-4 d-flex flex-column align-items-center justify-content-center">
-          <FontAwesomeIcon className='fs-3 text-danger' icon={faPhone}  />
-          <h2>PHONE</h2>
-          <p>
-            +1 234 567 8901<br />
-            +1 234 567 8902
-          </p>
-        </div>
-      </div>
+    <div className="col-md-4 col-12 d-flex flex-column align-items-center">
+      <FontAwesomeIcon className="fs-3 text-danger" icon={faPhone} />
+      <h2>PHONE</h2>
+      <p>
+        +1 234 567 8901<br />
+        +1 234 567 8902
+      </p>
+    </div>
+  </div>
+</div>
+
 
       <Row className='justify-content-center align-items-center mx-5 px-3'>
         <Col md={6} className="d-flex justify-content-center">
@@ -144,12 +153,24 @@ const Contact = () => {
           </Form>
         </Col>
 
-        <Col md={6} className='d-flex justify-content-center'>
-          <img src="https://plus.unsplash.com/premium_photo-1661909267383-58991abdca51?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Contact" width="75%" />
-        </Col>
+        <Col md={6} className="d-flex flex-column align-items-center">
+  <img 
+    src="https://plus.unsplash.com/premium_photo-1661909267383-58991abdca51?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+    alt="Contact" 
+    width="75%" 
+    className="mb-3"
+  />
+  <Link to="/chatbox">
+    <button className="btn btn-success px-4 py-2 mt-3">Chatbox →</button>
+  </Link>
+</Col>
+
+       
       </Row>
+      
     </>
   );
-};
+}; 
+
 
 export default Contact;
