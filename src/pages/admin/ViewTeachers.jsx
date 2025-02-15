@@ -1,80 +1,73 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Card, Table } from "react-bootstrap";
+import AddTeachers from "./AddTeachers";
+import EditTeachers from "./EditTeachers";
+import { allTeachersAPI, deleteTeachersAPI } from "../../services/allApi";
+import SERVER_URL from "../../services/serverUrl";
+import {
+  addTeachersResponseContext,
+  editTeachersResponseContext,
+  totalTeachersContext,
+} from "../../contexts/ContextApi";
 
-import { allTeachersAPI, deleteTeachersAPI } from '../../services/allApi';
-import { Button, Card, Col, Table } from 'react-bootstrap';
-import AddTeachers from './AddTeachers';
-import SERVER_URL from '../../services/serverUrl';
-import EditTeachers from './EditTeachers';
-import { addTeachersResponseContext, editTeachersResponseContext, totalTeachersContext } from '../../contexts/ContextApi';
+const ViewTeachers = ({ tableTeachersShow }) => {
+  const { editTeachersResponse } = useContext(editTeachersResponseContext);
+  const { totalTeachers, setTotalTeachers } = useContext(totalTeachersContext);
+  const { addTeachersResponse, setAddTeachersResponse } = useContext(addTeachersResponseContext);
 
+  useEffect(() => {
+    getAllTeachers();
+  }, [editTeachersResponse]);
 
+  const getAllTeachers = async () => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+      try {
+        const result = await allTeachersAPI(reqHeader);
+        if (result.status === 200) {
+          setAddTeachersResponse(result.data);
+          setTotalTeachers(result.data.length);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
 
-const ViewTeachers = ({tableTeachersShow}) => {
-     const {editTeachersResponse}=useContext(editTeachersResponseContext)
-       const { totalTeachers, setTotalTeachers } = useContext(totalTeachersContext);
-       const {addTeachersResponse, setAddTeachersResponse} = useContext(addTeachersResponseContext)
-    
-        
-        
-        
-          useEffect(() => {
-            getAllTeachers();
-          }, [editTeachersResponse]);
-        
-          const getAllTeachers = async () => {
-            const token = sessionStorage.getItem("token");
-            if (token) {
-              const reqHeader = {
-              "Authorization": `Bearer ${token}`
-              }
-              try {
-                const result = await allTeachersAPI(reqHeader);
-                if (result.status === 200) {
-                  setAddTeachersResponse(result.data);
-                  setTotalTeachers(result.data.length)
-                }
-              } catch (err) {
-                console.log(err);
-              }
-            }
-          };
-
-
-           const deleteTeachers =async(id)=>{
-              const token = sessionStorage.getItem("token");
-            
-              if (token) {
-                
-              //api call
-                const reqHeader = {
-                   
-                    "Authorization": `Bearer ${token}`
-                };
-            
-                try{
-            await deleteTeachersAPI(id,reqHeader)
-            getAllTeachers()
-                }catch(err){
-                  console.log(err);
-                }
-            }
-            }
-
-          
-          
+  const deleteTeacher = async (id) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+      try {
+        await deleteTeachersAPI(id, reqHeader);
+        getAllTeachers(); // Refresh list
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
 
   return (
- 
-     
-     <Card className="mb-4">
- <Card.Header>Manage Teachers</Card.Header>
-        {/* Add Services Form */}
-        <AddTeachers  />
-       
-        {/* Services Table */}
+    <Card className="mb-4 shadow-lg rounded">
+      <Card.Header className="bg-primary text-white text-center fs-5 fw-bold">
+        Manage Teachers
+      </Card.Header>
+
+      <Card.Body>
+        {/* Add Teachers Form */}
+        <div className="mb-4">
+          <AddTeachers />
+        </div>
+
+        {/* Teachers Table */}
         {!tableTeachersShow && (
-          <Table striped bordered hover>
-            <thead>
+          <Table striped bordered hover responsive className="text-center">
+            <thead className="table-dark">
               <tr>
                 <th>#</th>
                 <th>Profile</th>
@@ -86,44 +79,51 @@ const ViewTeachers = ({tableTeachersShow}) => {
               </tr>
             </thead>
             <tbody>
-              {addTeachersResponse.map((teacher, index) => (
-                <tr key={teacher?._id}>
-                  <td>{index + 1}</td>
-                  <td>
-        {/* Display teacher's image */}
-        <img
-          src={`${SERVER_URL}/uploads/${teacher.teachersImg}`}
-          alt={teacher.name}
-          style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }}
-        />
-      </td>
-                  <td>{teacher.name}</td>
-                  <td>{teacher.email}</td>
-                  <td>{teacher.contact}</td>
-                  <td>{teacher.courses}</td>
-
-                  <td>
-                   <Button variant="warning" size="sm" className="me-2">
-                        <EditTeachers
-
-                         teacher={teacher}/>
-                        </Button>
-
-                        <button onClick={()=>deleteTeachers(teacher?._id) } className='btn text-white bg-danger mt-2'>Delete</button>
-                        
- 
-                        
+              {addTeachersResponse?.length > 0 ? (
+                addTeachersResponse.map((teacher, index) => (
+                  <tr key={teacher?._id}>
+                    <td className="align-middle">{index + 1}</td>
+                    <td className="align-middle">
+                      <img
+                        src={`${SERVER_URL}/uploads/${teacher.teachersImg}`}
+                        alt={teacher.name}
+                        className="rounded-circle"
+                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                      />
+                    </td>
+                    <td className="align-middle fw-bold">{teacher.name}</td>
+                    <td className="align-middle text-truncate" style={{ maxWidth: "200px" }}>
+                      {teacher.email}
+                    </td>
+                    <td className="align-middle">{teacher.contact}</td>
+                    <td className="align-middle">{teacher.courses}</td>
+                    <td className="align-middle">
+                      <Button variant="warning" size="sm" className="me-2 text-white">
+                        <EditTeachers teacher={teacher} />
+                      </Button>
+                      <Button
+                        onClick={() => deleteTeacher(teacher?._id)}
+                        variant="danger"
+                        size="sm"
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center text-muted">
+                    No teachers available.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </Table>
         )}
+      </Card.Body>
+    </Card>
+  );
+};
 
-
-      </Card>
-   
-  )
-}
-
-export default ViewTeachers
+export default ViewTeachers;

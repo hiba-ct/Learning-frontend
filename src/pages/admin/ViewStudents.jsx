@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import AddStudents from "./AddStudents";
 import { Button, Card, Table } from "react-bootstrap";
-import { allStudentsAPI, deleteStudentAPI } from "../../services/allApi";
+import AddStudents from "./AddStudents";
 import EditStudents from "./EditStudents";
-import { addStudentsResponseContext, editStudentsResponseContext, totalStudentsContext } from "../../contexts/ContextApi";
+import { allStudentsAPI, deleteStudentAPI } from "../../services/allApi";
+import {
+  addStudentsResponseContext,
+  editStudentsResponseContext,
+  totalStudentsContext,
+} from "../../contexts/ContextApi";
 
 const ViewStudents = ({ tableStudentShow }) => {
   const { totalStudents, setTotalStudents } = useContext(totalStudentsContext);
-   const {editStudentsResponse}=useContext(editStudentsResponseContext)
-  const {addStudentsResponse, setAddStudentsResponse} = useContext(addStudentsResponseContext); 
- 
+  const { editStudentsResponse } = useContext(editStudentsResponseContext);
+  const { addStudentsResponse, setAddStudentsResponse } = useContext(addStudentsResponseContext);
+
   useEffect(() => {
     getAllStudents();
   }, [editStudentsResponse]);
@@ -24,15 +28,15 @@ const ViewStudents = ({ tableStudentShow }) => {
         const result = await allStudentsAPI(reqHeader);
         if (result.status === 200) {
           setAddStudentsResponse(result.data);
-          setTotalStudents(result.data.length)
+          setTotalStudents(result.data.length);
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   };
 
-  const deleteStudents = async (id) => {
+  const deleteStudent = async (id) => {
     const token = sessionStorage.getItem("token");
     if (token) {
       const reqHeader = {
@@ -40,24 +44,29 @@ const ViewStudents = ({ tableStudentShow }) => {
       };
       try {
         await deleteStudentAPI(id, reqHeader);
-      /* onDeleteStudentSuccess() */
-        getAllStudents(); // Refresh the list
+        getAllStudents(); // Refresh list
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   };
 
- 
-
   return (
-    <div>
-      <Card className="mb-4">
-        <Card.Header>Manage Students</Card.Header>
-        <AddStudents  />
+    <Card className="mb-4 shadow-lg rounded">
+      <Card.Header className="bg-primary text-white text-center fs-5 fw-bold">
+        Manage Students
+      </Card.Header>
+
+      <Card.Body>
+        {/* Add Students Form */}
+        <div className="mb-4">
+          <AddStudents />
+        </div>
+
+        {/* Students Table */}
         {!tableStudentShow && (
-          <Table striped bordered hover responsive>
-            <thead>
+          <Table striped bordered hover responsive className="text-center">
+            <thead className="table-dark">
               <tr>
                 <th>#</th>
                 <th>User Name</th>
@@ -71,36 +80,45 @@ const ViewStudents = ({ tableStudentShow }) => {
               </tr>
             </thead>
             <tbody>
-              {addStudentsResponse?.map((student, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{student.username}</td>
-                  <td>{student.email}</td>
-                  <td>{student.mobile_number}</td>
-                  <td>{student.course}</td>
-                  <td>{student.duration}</td>
-                  <td>{student.total_fee}</td>
-                  <td>{student.pending_fee}</td>
-                  <td>
-                    <Button variant="warning" size="sm" className="me-2">
-                      <EditStudents student={student} />
-                    </Button>
-                    <Button
-                      onClick={() => deleteStudents(student?._id)}
-                      variant="danger"
-                      size="sm"
-                      className="mt-2"
-                    >
-                      Delete
-                    </Button>
+              {addStudentsResponse?.length > 0 ? (
+                addStudentsResponse.map((student, index) => (
+                  <tr key={student?._id}>
+                    <td className="align-middle">{index + 1}</td>
+                    <td className="align-middle fw-bold">{student.username}</td>
+                    <td className="align-middle text-truncate" style={{ maxWidth: "200px" }}>
+                      {student.email}
+                    </td>
+                    <td className="align-middle">{student.mobile_number}</td>
+                    <td className="align-middle">{student.course}</td>
+                    <td className="align-middle">{student.duration}</td>
+                    <td className="align-middle">{student.total_fee}</td>
+                    <td className="align-middle">{student.pending_fee}</td>
+                    <td className="align-middle">
+                      <Button variant="warning" size="sm" className="me-2 text-white">
+                        <EditStudents student={student} />
+                      </Button>
+                      <Button
+                        onClick={() => deleteStudent(student?._id)}
+                        variant="danger"
+                        size="sm"
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="9" className="text-center text-muted">
+                    No students available.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </Table>
         )}
-      </Card>
-    </div>
+      </Card.Body>
+    </Card>
   );
 };
 

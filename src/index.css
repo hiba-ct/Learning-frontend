@@ -156,8 +156,27 @@ button {
 }
 
 
+/* dashboard */
 
+.sidebar-link {
+  padding: 10px 15px;
+  display: block;
+  border-radius: 5px;
+  transition:  0.3s ease;
+}
 
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.logout-link {
+  margin-top: auto;
+  color: #dc3545 !important;
+  font-weight: bold;
+}
+.logout-link:hover {
+  background: rgba(255, 0, 0, 0.2);
+}
 
 
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Table, Form } from "react-bootstrap";
 import { allSubmitAPI, deleteContactAPI } from "../../services/allApi";
+import { Link } from "react-router-dom";
 
 const ViewContacts = () => {
   const [allContacts, setAllContacts] = useState([]);
@@ -14,9 +15,7 @@ const ViewContacts = () => {
   const getAllContacts = async () => {
     const token = sessionStorage.getItem("token");
     if (token) {
-      const reqHeader = {
-        Authorization: `Bearer ${token}`,
-      };
+      const reqHeader = { Authorization: `Bearer ${token}` };
       try {
         const result = await allSubmitAPI(reqHeader);
         if (result.status === 200) {
@@ -31,9 +30,7 @@ const ViewContacts = () => {
   const deleteContacts = async (id) => {
     const token = sessionStorage.getItem("token");
     if (token) {
-      const reqHeader = {
-        Authorization: `Bearer ${token}`,
-      };
+      const reqHeader = { Authorization: `Bearer ${token}` };
       try {
         await deleteContactAPI(id, reqHeader);
         getAllContacts(); // Refresh the list
@@ -47,11 +44,7 @@ const ViewContacts = () => {
   const handleCheckboxChange = (id) => {
     setSelectedContacts((prev) => {
       const newSelected = new Set(prev);
-      if (newSelected.has(id)) {
-        newSelected.delete(id);
-      } else {
-        newSelected.add(id);
-      }
+      newSelected.has(id) ? newSelected.delete(id) : newSelected.add(id);
       return newSelected;
     });
   };
@@ -68,33 +61,24 @@ const ViewContacts = () => {
   const handleMarkNoted = (id) => {
     setNotedContacts((prev) => {
       const newNoted = new Set(prev);
-      if (newNoted.has(id)) {
-        newNoted.delete(id);
-      } else {
-        newNoted.add(id);
-      }
+      newNoted.has(id) ? newNoted.delete(id) : newNoted.add(id);
       return newNoted;
     });
   };
 
   return (
-    <div>
-      <Card className="mb-4">
-        <Card.Header>
-          Contact Messages
+    <div className="container mt-4">
+      <Card className="mb-4 shadow">
+        <Card.Header className="bg-primary text-white">
+          <h5 className="mb-0">📩 Contact Messages</h5>
           {selectedContacts.size > 0 && (
-            <Button
-              variant="danger"
-              size="sm"
-              className="float-end"
-              onClick={deleteSelectedContacts}
-            >
+            <Button variant="danger" size="sm" className="float-end" onClick={deleteSelectedContacts}>
               Delete Selected
             </Button>
           )}
         </Card.Header>
         <Table striped bordered hover responsive>
-          <thead>
+          <thead className="table-dark">
             <tr>
               <th>
                 <Form.Check
@@ -141,16 +125,11 @@ const ViewContacts = () => {
                       type="checkbox"
                       checked={notedContacts.has(contact._id)}
                       onChange={() => handleMarkNoted(contact._id)}
-                      label={notedContacts.has(contact._id) ? "Noted ✅" : "Mark"}
+                      label={notedContacts.has(contact._id) ? "✅ Noted" : "Mark"}
                     />
                   </td>
                   <td>
-                    <Button
-                      onClick={() => deleteContacts(contact._id)}
-                      variant="danger"
-                      size="sm"
-                      className="mt-2"
-                    >
+                    <Button onClick={() => deleteContacts(contact._id)} variant="danger" size="sm">
                       <i className="fa-solid fa-trash"></i>
                     </Button>
                   </td>
@@ -158,7 +137,7 @@ const ViewContacts = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="9" className="text-center">
+                <td colSpan="9" className="text-center text-muted">
                   No contacts found.
                 </td>
               </tr>
@@ -166,6 +145,15 @@ const ViewContacts = () => {
           </tbody>
         </Table>
       </Card>
+
+      {/* Centered Chatbox Button */}
+      <div className="d-flex justify-content-center">
+        <Link to="/chatbox">
+          <Button variant="success" className="px-5 py-2 btn-lg shadow">
+            💬 Open Chatbox →
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
