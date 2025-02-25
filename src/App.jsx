@@ -22,6 +22,8 @@ import ViewContacts from './pages/admin/ViewContact'
 import { useContext, useEffect } from 'react'
 import { tokenAuthContext } from './contexts/AuthContextApi'
 import ChatBox from './components/ChatBox'
+import Chat from './pages/admin/Chat'
+import ReplyChatBox from './components/ReplyChatBox'
 
 
 
@@ -57,6 +59,9 @@ function App() {
      <Route path='/addcourses' element={<AddCourses/>}/>
      <Route path='/viewteachers' element={<ViewTeachers/>}/>
      <Route path='/viewsettings' element={<ViewSettings/>}/>
+     <Route path='/viewchat' element={<Chat/>}/>
+    
+
       </>
       }
     

@@ -61,6 +61,10 @@ const AdminDashboard = () => {
               <FontAwesomeIcon icon={faUser} className="me-2" />
               Register Students
             </Nav.Link>
+            <Nav.Link as={Link} to="/viewchat" className="text-white sidebar-link">
+              <FontAwesomeIcon icon={faUser} className="me-2" />
+              Users
+            </Nav.Link>
             <Nav.Link onClick={logout} className="text-white sidebar-link logout-link">
               <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
               Logout
@@ -71,7 +75,7 @@ const AdminDashboard = () => {
         {/* Main Content */}
         <Col md={10} className="main-content p-4">
           {/* Top Navbar */}
-          <Navbar bg="light" expand="lg" className="mb-3 shadow-sm rounded">
+          <Navbar bg="danger" expand="lg" className="mb-3 shadow-sm rounded">
             <Container fluid>
               <Navbar.Brand className="fw-bold">Admin Dashboard</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -8,6 +8,12 @@ export const registerAPI = async (reqBody)=>{
     
     
     }
+    //allregisters
+    export const getallregistersAPI = async (reqHeader)=>{
+        return await commonApi("GET",`${SERVER_URL}/registers`,{},reqHeader)
+        
+        
+        }
 
 //loginAPI 
 
@@ -188,12 +194,18 @@ export const deleteTeachersAPI=async(id,reqHeader)=>{
 export const updateSettingsAPI = async (id, reqBody, reqHeader) => {
     return await commonApi("PUT", `${SERVER_URL}/admin/${id}/edit`, reqBody, reqHeader);
   };
+  
 
+  //AdminDetailsPI 
+  export const adminDetailsPI = async (id, reqHeader) => {
+    return await commonApi("GET", `${SERVER_URL}/admindetails/${id}`, {}, reqHeader);
+  };
+  
 
   //chatbox usermessage
   
-  export const usermessageAPI = async (reqBody) => {
-    return await commonApi("POST", `${SERVER_URL}/sendmessage`, reqBody);
+  export const sendmessageAPI = async (reqBody,reqHeader) => {
+    return await commonApi("POST", `${SERVER_URL}/sendmessage`, reqBody,reqHeader);
   };
 
 
@@ -204,11 +216,22 @@ export const updateSettingsAPI = async (id, reqBody, reqHeader) => {
   export const allMessagesAPI = async (reqHeader) => {
     return await commonApi("GET", `${SERVER_URL}/messages`, {},reqHeader);
   };
+ 
+
+//useronemessage
+ export const usermessageAPI = async (reqHeader) => {
+    return await commonApi("GET", `${SERVER_URL}/usermessages`, {}, reqHeader);
+}; 
+
 
 
    //removemessage
 export const deleteMessageAPI=async(messageId,reqHeader)=>{
     return await commonApi("DELETE",`${SERVER_URL}/deleteMessage/${messageId}`,{},reqHeader)
+}
+
+export const deleteReplyAPI=async(messageId,reqHeader)=>{
+    return await commonApi("DELETE",`${SERVER_URL}/deletereply/${messageId}/reply`,{},reqHeader)
 }
 
 
