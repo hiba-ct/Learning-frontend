@@ -24,6 +24,8 @@ import { tokenAuthContext } from './contexts/AuthContextApi'
 import ChatBox from './components/ChatBox'
 import Chat from './pages/admin/Chat'
 import ReplyChatBox from './components/ReplyChatBox'
+import AdminChat from './pages/admin/AdminChat'
+import AdminLayout from './pages/admin/AdminLayout'
 
 
 
@@ -49,17 +51,21 @@ function App() {
         <>
         <Route path='/contact'element={<Contact/>}/>
         <Route path='/chatbox'element={<ChatBox/>}/>
-        <Route path='/addservices' element={<AddServices/>}/>
-     <Route path='/viewservices' element={<ViewServices/>}/>
-     <Route path='/viewcourse' element={<ViewCourse/>}/>
-     <Route path='/viewcontact' element={<ViewContacts/>}/>
+      
      <Route path='/courses' element={<Courses/>}/>
-     <Route path="/admin-dashboard" element={<AdminDashboard/>} />
-     <Route path='/viewstudents' element={<ViewStudents/>}/>
-     <Route path='/addcourses' element={<AddCourses/>}/>
-     <Route path='/viewteachers' element={<ViewTeachers/>}/>
-     <Route path='/viewsettings' element={<ViewSettings/>}/>
-     <Route path='/viewchat' element={<Chat/>}/>
+      <Route element={<AdminLayout />}>
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/viewcourse" element={<ViewCourse />} />
+        <Route path="/addcourses" element={<AddCourses />} />
+        <Route path="/viewservices" element={<ViewServices />} />
+        <Route path="/addservices" element={<AddServices />} />
+        <Route path="/viewstudents" element={<ViewStudents />} />
+        <Route path="/viewteachers" element={<ViewTeachers />} />
+        <Route path="/viewsettings" element={<ViewSettings />} />
+        <Route path="/viewcontact" element={<ViewContacts />} />
+        <Route path="/viewchat" element={<Chat />} />
+        <Route path="/chat" element={<AdminChat />} />
+      </Route>
     
 
       </>

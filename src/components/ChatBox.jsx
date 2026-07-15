@@ -11,6 +11,7 @@ const ChatBox = () => {
   const [userId, setUserId] = useState(null); 
   const [username, setUsername] = useState("");
   const [selectedMessageId, setSelectedMessageId] = useState(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
 
   const messagesEndRef = useRef(null);
 
@@ -34,7 +35,7 @@ const ChatBox = () => {
     scrollToBottom();
   }, []);
 
-  const fetchAllMessages = async () => {
+  const fetchAllMessages = async (shouldScroll = true) => {
     const token = sessionStorage.getItem("token");
     if (!token) return;
     try {
@@ -42,7 +43,9 @@ const ChatBox = () => {
       const response = role === "admin" ? await allMessagesAPI(headers) : await usermessageAPI(headers, { userId });
       if (response.status === 200) {
         setMessages(Array.isArray(response.data) ? response.data : []);
-        setTimeout(scrollToBottom, 100);
+        if (shouldScroll) {
+          setTimeout(scrollToBottom, 100); // Scroll only if required
+        }
       }
     } catch (error) {
       console.error("API Error:", error);
@@ -68,7 +71,8 @@ const ChatBox = () => {
         if (response.status === 201) {
           setMessageInput("");
           setSelectedMessageId(null); // ✅ Reset selected message
-          fetchAllMessages(); // Refresh messages
+          fetchAllMessages(false); // Refresh messages
+         
         }
       } catch (error) {
         console.error("Error sending reply:", error);
@@ -103,7 +107,7 @@ const ChatBox = () => {
         await deleteMessageAPI(messageId, reqHeader);
       }
       
-      fetchAllMessages();
+      fetchAllMessages(false);
     } catch (err) {
       console.log(err);
     }
@@ -147,7 +151,7 @@ const ChatBox = () => {
             </Card>
 
             {/* Delete Button for Admin */}
-            <Button 
+           {/*  <Button 
               variant="danger" 
               size="sm"
               className="position-absolute top-0 end-0 me-2 mt-2 rounded-circle"
@@ -155,7 +159,7 @@ const ChatBox = () => {
               onClick={() => deleteMessage(message._id)}
             >
               ❌
-            </Button>
+            </Button> */}
           </div>
 
           {/* Show Admin Reply */}
